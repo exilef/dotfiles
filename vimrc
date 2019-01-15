@@ -109,14 +109,6 @@ set clipboard=unnamedplus
 "show partial line instead of @@@@
 set display=lastline
 
-let base16colorspace=256
-colorscheme base16-oceanicnext
-let g:airline_theme='base16_oceanicnext'
-let g:airline_powerline_fonts=1
-set noshowmode
-"set background=light "solarize light theme
-"call togglebg#map("<F5>")
-
 if has("gui_running")
     "tell the term has 256 colors
     set t_Co=256
