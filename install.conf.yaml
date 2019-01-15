@@ -11,8 +11,6 @@
     - mkdir -p ~/.config
     # install submodules
     - [git submodule update --init --recursive, Initializing submodules]
-    # install prezto submodules
-    - [cd prezto && git submodule update --init --recursive, Initializing prezto submodules]
 
 - link:
     # local bin directory
