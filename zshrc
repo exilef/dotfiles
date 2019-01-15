@@ -35,4 +35,4 @@ if [[ $OS == 'osx' ]]; then
 fi
 
 # local zshrc
-test -e "${HOME}/.zshrc_local" && source "${HOME}/.zshrc_local"
+test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc_local"
