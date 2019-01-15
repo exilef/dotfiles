@@ -1,3 +1,38 @@
-- clean: []
-- link: {}
-- shell: []
+- defaults:
+    link:
+      create: true
+      relink: true
+      force: true # swap original file
+
+- clean: ["~", "~/.config"]
+
+- shell:
+    # make config dir
+    - mkdir -p ~/.config
+    # install submodules
+    - [git submodule update --init --recursive, Initializing submodules]
+
+- link:
+    # local bin directory
+    ~/.bin: bin/
+
+    # zsh
+    ~/.zprezto: prezto/
+    ~/.zlogin: zlogin
+    ~/.zlogout: zlogout
+    ~/.zpreztorc: zpreztorc
+    ~/.zprofile: zprofile
+    ~/.zshenv: zshenv
+    ~/.zshrc: zshrc
+
+    # vim
+    ~/.vimrc: vimrc
+    ~/.vim: vim/
+
+    # git
+    ~/.gitconfig: git/gitconfig
+    ~/.gitignore_global: git/gitignore_global
+
+    # tmux
+    ~/.tmux.conf: tmux/.tmux.conf
+    ~/.tmux.conf.local: tmux.conf.local

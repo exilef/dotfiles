@@ -1,0 +1,26 @@
+[color]
+	ui = true
+[core]
+	excludesfile = ~/.gitignore_global
+	editor = vim
+	pager = less -FMRiX
+[user]
+	name = Felix Effenberger
+	email = effenberger.felix@gmail.com
+[push]
+	default = simple
+[alias]
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	st = status
+	co = checkout
+	pr = pull --rebase
+	nuke = reset --hard @{u}
+	wipebranches = !git branch --merged | grep -v \"\\*\" | xargs -n 1 git branch -d
+	rc = rebase --continue
+	com = commit
+	coma = commit --amend
+	dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+[branch]
+	autosetuprebase = always
+[credential]
+	helper = osxkeychain

@@ -1,0 +1,35 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "extensions.ignoreRecommendations": false,
+    "workbench.colorTheme": "One Dark Pro Vivid",
+    "gitlens.advanced.messages": {
+        "suppressCommitHasNoPreviousCommitWarning": false,
+        "suppressCommitNotFoundWarning": false,
+        "suppressFileNotUnderSourceControlWarning": false,
+        "suppressGitVersionWarning": false,
+        "suppressLineUncommittedWarning": false,
+        "suppressNoRepositoryWarning": false,
+        "suppressResultsExplorerNotice": false,
+        "suppressShowKeyBindingsNotice": true,
+        "suppressUpdateNotice": false,
+        "suppressWelcomeNotice": true
+    },
+    "python.pythonPath": "/usr/local/opt/python/bin/python2.7",
+    "files.associations": {
+        "*.m": "matlab"
+    },
+    "gitlens.keymap": "chorded",
+    "gitlens.historyExplorer.enabled": true,
+    "[c]": {},
+    "gitlens.views.fileHistory.enabled": true,
+    "gitlens.views.lineHistory.enabled": true,
+    "editor.tabSize": 2,
+    // Render vertical rulers after a certain number of monospace characters. Use multiple values for multiple rulers. No rulers are drawn if array is empty.
+    "editor.rulers": [
+        100
+    ],
+    "latex-workshop.view.pdf.viewer": "tab",
+    "cSpell.userWords": [
+        "effenberger"
+    ]
+}
