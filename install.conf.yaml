@@ -16,6 +16,9 @@
     # local bin directory
     ~/.bin: bin/
 
+    # Xmodmap US<->DE
+    ~/.Xmodmap: Xmodmap
+
     # zsh
     ~/.zprezto: prezto/
     ~/.zlogin: zlogin

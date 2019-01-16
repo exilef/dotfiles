@@ -61,6 +61,24 @@ function pass() {
     echo $(cat /dev/urandom | tr -dc '!@#$%^&_?0-9a-zA-Z' | head -c$1)
 }
 
+inline-ls() {
+    zle push-line
+    BUFFER=" ls"
+    zle accept-line
+}
+zle -N inline-ls
+bindkey '^l' inline-ls
+
+# automatically escape parsed urls
+autoload -U url-quote-magic
+if [[ $+functions[_zsh_highlight] == 1 ]]; then
+    function _url-quote-magic() { url-quote-magic; _zsh_highlight }
+    zle -N self-insert _url-quote-magic
+else
+    zle -N self-insert url-quote-magic
+fi
+
+
 # alt + arrows
 bindkey "^[[1;9C" forward-word # alt+ ->
 bindkey "^[[1;9D" backward-word # alt + <-
@@ -69,7 +87,6 @@ bindkey "^[[1;9D" backward-word # alt + <-
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
 bindkey '^k' kill-line
-bindkey '^l' inline-ls
 bindkey '^o' get-line
 bindkey '^p' push-line-or-edit
 bindkey "^v" copy-earlier-word
