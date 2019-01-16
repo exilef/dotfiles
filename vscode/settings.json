@@ -1,7 +1,6 @@
 {
     "workbench.startupEditor": "newUntitledFile",
     "extensions.ignoreRecommendations": false,
-    "workbench.colorTheme": "One Dark Pro Vivid",
     "gitlens.advanced.messages": {
         "suppressCommitHasNoPreviousCommitWarning": false,
         "suppressCommitNotFoundWarning": false,
@@ -31,5 +30,6 @@
     "latex-workshop.view.pdf.viewer": "tab",
     "cSpell.userWords": [
         "effenberger"
-    ]
+    ],
+    "workbench.colorTheme": "One Dark Pro Vivid"
 }
