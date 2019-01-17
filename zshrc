@@ -122,39 +122,23 @@ bindkey '^w' tcsh-forward-delete-word
 # fancy aliases
 # https://blog.sebastian-daschner.com/entries/zsh-aliases
 
-# blank aliases
-typeset -a baliases
-baliases=()
+# expanded aliases
+typeset -a ealiases
+ealiases=()
 
-balias() {
+ealias() {
   alias $@
   args="$@"
   args=${args%%\=*}
-  baliases+=(${args##* })
-}
-
-# ignored aliases
-typeset -a ialiases
-ialiases=()
-ialiases+=('cd')
-
-ialias() {
-  alias $@
-  args="$@"
-  args=${args%%\=*}
-  ialiases+=(${args##* })
+  ealiases+=(${args##* })
 }
 
 # functionality
 expand-alias-space() {
-  [[ $LBUFFER =~ "\<(${(j:|:)baliases})\$" ]]; insertBlank=$?
-  if [[ ! $LBUFFER =~ "\<(${(j:|:)ialiases})\$" ]]; then
+  if [[ ${ealiases[(r)$LBUFFER]} == $LBUFFER ]]; then
     zle _expand_alias
   fi
   zle self-insert
-  if [[ "$insertBlank" = "0" ]]; then
-    zle backward-delete-char
-  fi
 }
 zle -N expand-alias-space
 
@@ -170,61 +154,56 @@ background() {
 
 alias sha1='openssl sha1'
 
-ialias h='history'
-ialias hs='history | grep'
-ialias j='jobs -l'
+alias h='history'
+alias hs='history | grep'
+alias j='jobs -l'
 
-ialias path='echo -e ${PATH//:/\\n}'
+alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T"'
 alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
 
 
-alias g='git'
-alias ga='git add'
-alias gr='git rm'
-alias gn='git mv'
-alias gra='git remote add'
-alias gf='git fetch'
-alias gs='git status'
-alias gc='git commit'
-alias gl='git pull'
-alias gp='git push'
+ealias g='git'
+ealias ga='git add'
+ealias gr='git rm'
+ealias gn='git mv'
+ealias gra='git remote add'
+ealias gf='git fetch'
+ealias gc='git commit'
+ealias gl='git pull'
+ealias gp='git push'
+ealias gd='git diff'
+ealias gds='git diff --staged'
+ealias gdn='git diff --name-only'
+ealias gs='git status --short'
+ealias gss='git show --word-diff=color'
 
-# git diff
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gdn='git diff --name-only'
-
-# git status
-alias gs='git status --short'
-alias gss='git show --word-diff=color'
-
-ialias ..='cd ..'
-ialias /='cd /'
-ialias ~='cd ~'
+alias ..='cd ..'
+alias /='cd /'
+alias ~='cd ~'
 alias cd..='cd ..'
-alias cd~='cd ..'
+alias cd~='cd ~'
 
-ialias rd='rmdir'
-ialias md='mkdir'
+ealias rd='rmdir'
+ealias md='mkdir'
 
-ialias cpu='htop -o cpu'
-ialias mem='htop -o rsize'
+alias cpu='htop -o cpu'
+alias mem='htop -o rsize'
 
-ialias tmp='cd /tmp'
+alias tmp='cd /tmp'
 
 
 # apt
-alias apt-get='sudo apt-get'
-alias apt='sudo apt'
-alias update='sudo apt-get update && sudo apt-get upgrade'
+ealias apt-get='sudo apt-get'
+ealias apt='sudo apt'
+ealias update='sudo apt-get update && sudo apt-get upgrade'
 
 # reboot / halt / poweroff
-alias reboot='sudo reboot'
-alias poweroff='sudo poweroff'
-alias halt='sudo halt'
-alias shutdown='sudo shutdown'
+ealias reboot='sudo reboot'
+ealias poweroff='sudo poweroff'
+ealias halt='sudo halt'
+ealias shutdown='sudo shutdown'
 
 ## pass options to free ##
 alias meminfo='free -m -l -t'
@@ -238,15 +217,15 @@ alias pscpu='ps auxf | sort -nr -k 3'
 alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
  
 # wget -c(ontinue)
-alias wget='wget -c'
+ealias wget='wget -c'
 
 alias dirsize='du -Sh | sort -rh'
 alias filesize='find -type f -exec du -Sh {} + | sort -rh'
 alias partusage='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'
 
 
-alias c='clear'
-alias x='exit'
+ealias c='clear'
+ealias x='exit'
 
 # get random BOFH excuse
 function bofh() {
@@ -256,10 +235,10 @@ function bofh() {
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # tmux
-alias tn='tmux new-session -s'
-alias ta='tmux attach -t'
-alias tl='tmux ls'
-alias tk='tmux kill-session -s'
+ealias tn='tmux new-session -s'
+ealias ta='tmux attach -t'
+ealias tl='tmux ls'
+ealias tk='tmux kill-session -s'
 
 
 extract () {
@@ -287,75 +266,15 @@ alias ip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]
 alias ippub='curl ipinfo.io/ip'
 alias dnspub='curl ipinfo.io/hostname'
 
-ialias rank="sort | uniq -c | sort -n"
+alias rank="sort | uniq -c | sort -n"
 
-ialias chrome="open -a \"Google Chrome\""
-
-
-setopt CORRECT
-
-
-
-
-ialias find='noglob find'
-ialias history='noglob history'
-ialias locate='noglob locate'
-ialias rsync='noglob rsync'
-ialias scp='noglob scp'
-
-
-ialias cp='nocorrect cp'
-ialias mv='nocorrect mv'
-
-
-
-# ls
-if is-callable 'dircolors'; then
-  # GNU Core Utilities
-
-  if zstyle -T ':prezto:module:utility:ls' dirs-first; then
-    alias ls="${aliases[ls]:-ls} --group-directories-first"
-  fi
-
-  if zstyle -t ':prezto:module:utility:ls' color; then
-    # Call dircolors to define colors if they're missing
-    if [[ -z "$LS_COLORS" ]]; then
-      if [[ -s "$HOME/.dir_colors" ]]; then
-        eval "$(dircolors --sh "$HOME/.dir_colors")"
-      else
-        eval "$(dircolors --sh)"
-      fi
-    fi
-
-    alias ls="${aliases[ls]:-ls} --color=auto"
-  else
-    alias ls="${aliases[ls]:-ls} -F"
-  fi
-else
-  # BSD Core Utilities
-  if zstyle -t ':prezto:module:utility:ls' color; then
-    # Define colors for BSD ls if they're not already defined
-    if [[ -z "$LSCOLORS" ]]; then
-      export LSCOLORS='exfxcxdxbxGxDxabagacad'
-    fi
-
-    # Define colors for the completion system if they're not already defined
-    if [[ -z "$LS_COLORS" ]]; then
-      export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
-    fi
-
-    alias ls="${aliases[ls]:-ls} -G"
-  else
-    alias ls="${aliases[ls]:-ls} -F"
-  fi
-fi
+alias chrome="open -a \"Google Chrome\""
 
 # alias
-ialias ls='ls --color=auto'
-ialias ll='ls -al --color=auto'
-ialias ltr='ls -altr --color=auto'
+alias ls='ls --color=auto'
+alias ll='ls -al --color=auto'
+alias ltr='ls -altr --color=auto'
 alias l.='ls -d .* --color=auto'
-
 
 alias l='ls -1A'         # Lists in one column, hidden files.
 alias ll='ls -lh'        # Lists human readable sizes.
@@ -367,21 +286,13 @@ alias lk='ll -Sr'        # Lists sorted by size, largest last.
 alias lt='ll -tr'        # Lists sorted by date, most recent last.
 alias lc='lt -c'         # Lists sorted by date, most recent last, shows change time.
 alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
-ialias sl='ls'            # I often screw this up.
-
+alias sl='ls'            # I often screw this up.
 
 # color grep
 export GREP_COLOR='37;45'           # BSD.
 export GREP_COLORS="mt=$GREP_COLOR" # GNU.
 
-ialias grep="${aliases[grep]:-grep} --color=auto"
-
-# Resource Usage
-alias df='df -kh'
-alias du='du -kh'
-
-
-
+alias grep="${aliases[grep]:-grep} --color=auto"
 
 # local zshrc
 test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
