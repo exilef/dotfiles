@@ -1,0 +1,10 @@
+remove Lock = Caps_Lock
+keysym Caps_Lock = Mode_switch
+keycode  20 = minus underscore ssharp
+keycode  21 = equal plus dead_acute dead_grave
+keycode  26 = e E EuroSign
+keycode  34 = bracketleft braceleft udiaeresis Udiaeresis
+keycode  47 = semicolon colon odiaeresis Odiaeresis
+keycode  48 = apostrophe quotedbl adiaeresis Adiaeresis
+keycode  49 = grave asciitilde dead_circumflex degree
+

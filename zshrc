@@ -158,8 +158,8 @@ expand-alias-space() {
 }
 zle -N expand-alias-space
 
-#bindkey " " expand-alias-space
-#bindkey -M isearch " " magic-space
+bindkey " " expand-alias-space
+bindkey -M isearch " " magic-space
 
 # starts one or multiple args as programs in background
 background() {
