@@ -29,7 +29,12 @@ if [[ $OS == 'osx' ]]; then
 
   zstyle ':prezto:module:tmux:iterm' integrate 'yes'
 
+  alias o='open'
+  alias dotshow="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+  alias dothide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
   export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/bin:${PATH}
+  
 fi
 
 
@@ -163,9 +168,17 @@ background() {
   done
 }
 
+alias sha1='openssl sha1'
 
-# alias
-ialias ll='ls -al'
+ialias h='history'
+ialias hs='history | grep'
+ialias j='jobs -l'
+
+ialias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T"'
+alias nowtime=now
+alias nowdate='date +"%d-%m-%Y"'
+
 
 alias g='git'
 alias ga='git add'
@@ -190,6 +203,8 @@ alias gss='git show --word-diff=color'
 ialias ..='cd ..'
 ialias /='cd /'
 ialias ~='cd ~'
+alias cd..='cd ..'
+alias cd~='cd ..'
 
 ialias rd='rmdir'
 ialias md='mkdir'
@@ -200,6 +215,175 @@ ialias mem='htop -o rsize'
 ialias tmp='cd /tmp'
 
 
+# apt
+alias apt-get='sudo apt-get'
+alias apt='sudo apt'
+alias update='sudo apt-get update && sudo apt-get upgrade'
+
+# reboot / halt / poweroff
+alias reboot='sudo reboot'
+alias poweroff='sudo poweroff'
+alias halt='sudo halt'
+alias shutdown='sudo shutdown'
+
+## pass options to free ##
+alias meminfo='free -m -l -t'
+ 
+## get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+ 
+## get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+ 
+# wget -c(ontinue)
+alias wget='wget -c'
+
+alias dirsize='du -Sh | sort -rh'
+alias filesize='find -type f -exec du -Sh {} + | sort -rh'
+alias partusage='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'
+
+
+alias c='clear'
+alias x='exit'
+
+# get random BOFH excuse
+function bofh() {
+    telnet towel.blinkenlights.nl 666
+}
+
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# tmux
+alias tn='tmux new-session -s'
+alias ta='tmux attach -t'
+alias tl='tmux ls'
+alias tk='tmux kill-session -s'
+
+
+extract () {
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)  tar xjf $1    ;;
+      *.tar.gz) tar xzf $1    ;;
+      *.bz2)    bunzip2 $1    ;;
+      *.rar)    rar x $1    ;;
+      *.gz)   gunzip $1   ;;
+      *.tar)    tar xf $1   ;;
+      *.tbz2)   tar xjf $1    ;;
+      *.tgz)    tar xzf $1    ;;
+      *.zip)    unzip $1    ;;
+      *.Z)    uncompress $1 ;;
+      *)      echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+
+alias ip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
+alias ippub='curl ipinfo.io/ip'
+alias dnspub='curl ipinfo.io/hostname'
+
+ialias rank="sort | uniq -c | sort -n"
+
+ialias chrome="open -a \"Google Chrome\""
+
+
+setopt CORRECT
+
+
+
+
+ialias find='noglob find'
+ialias history='noglob history'
+ialias locate='noglob locate'
+ialias rsync='noglob rsync'
+ialias scp='noglob scp'
+
+
+ialias cp='nocorrect cp'
+ialias mv='nocorrect mv'
+
+
+
+# ls
+if is-callable 'dircolors'; then
+  # GNU Core Utilities
+
+  if zstyle -T ':prezto:module:utility:ls' dirs-first; then
+    alias ls="${aliases[ls]:-ls} --group-directories-first"
+  fi
+
+  if zstyle -t ':prezto:module:utility:ls' color; then
+    # Call dircolors to define colors if they're missing
+    if [[ -z "$LS_COLORS" ]]; then
+      if [[ -s "$HOME/.dir_colors" ]]; then
+        eval "$(dircolors --sh "$HOME/.dir_colors")"
+      else
+        eval "$(dircolors --sh)"
+      fi
+    fi
+
+    alias ls="${aliases[ls]:-ls} --color=auto"
+  else
+    alias ls="${aliases[ls]:-ls} -F"
+  fi
+else
+  # BSD Core Utilities
+  if zstyle -t ':prezto:module:utility:ls' color; then
+    # Define colors for BSD ls if they're not already defined
+    if [[ -z "$LSCOLORS" ]]; then
+      export LSCOLORS='exfxcxdxbxGxDxabagacad'
+    fi
+
+    # Define colors for the completion system if they're not already defined
+    if [[ -z "$LS_COLORS" ]]; then
+      export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
+    fi
+
+    alias ls="${aliases[ls]:-ls} -G"
+  else
+    alias ls="${aliases[ls]:-ls} -F"
+  fi
+fi
+
+# alias
+ialias ls='ls --color=auto'
+ialias ll='ls -al --color=auto'
+ialias ltr='ls -altr --color=auto'
+alias l.='ls -d .* --color=auto'
+
+
+alias l='ls -1A'         # Lists in one column, hidden files.
+alias ll='ls -lh'        # Lists human readable sizes.
+alias lr='ll -R'         # Lists human readable sizes, recursively.
+alias la='ll -A'         # Lists human readable sizes, hidden files.
+alias lm='la | "$PAGER"' # Lists human readable sizes, hidden files through pager.
+alias lx='ll -XB'        # Lists sorted by extension (GNU only).
+alias lk='ll -Sr'        # Lists sorted by size, largest last.
+alias lt='ll -tr'        # Lists sorted by date, most recent last.
+alias lc='lt -c'         # Lists sorted by date, most recent last, shows change time.
+alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
+ialias sl='ls'            # I often screw this up.
+
+
+# color grep
+export GREP_COLOR='37;45'           # BSD.
+export GREP_COLORS="mt=$GREP_COLOR" # GNU.
+
+ialias grep="${aliases[grep]:-grep} --color=auto"
+
+# Resource Usage
+alias df='df -kh'
+alias du='du -kh'
+
+
+
 
 # local zshrc
 test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
+
+
