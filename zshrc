@@ -171,6 +171,7 @@ ealias gn='git mv'
 ealias gra='git remote add'
 ealias gf='git fetch'
 ealias gc='git commit'
+ealias gca='git commit -a -m'
 ealias gl='git pull'
 ealias gp='git push'
 ealias gd='git diff'
@@ -293,6 +294,10 @@ export GREP_COLOR='37;45'           # BSD.
 export GREP_COLORS="mt=$GREP_COLOR" # GNU.
 
 alias grep="${aliases[grep]:-grep} --color=auto"
+
+ealias cx='chmod +x'
+ealias cax='chmod a+x'
+ealias c6='chmod 600'
 
 # local zshrc
 test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
