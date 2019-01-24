@@ -12,6 +12,19 @@ elif [[ `uname` == 'Darwin' ]]; then
   export OS=osx
 fi
 
+export DEFAULT_USER="$USER"
+export LSCOLORS=exfxfeaeBxxehehbadacea
+
+#POWERLEVEL9K_MODE='nerdfont-complete'
+#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs newline background_jobs status)
+#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time)
+#POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+#POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
+#POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
+#POWERLEVEL9K_TIME_FORMAT="%D{%H:%M \uE868  %d.%m.%y}"
+#POWERLEVEL9K_STATUS_VERBOSE=true
+#zstyle ':prezto:module:prompt' theme 'powerlevel9k'
+
 # source prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -34,7 +47,6 @@ if [[ $OS == 'osx' ]]; then
   alias dothide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 
   export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/bin:${PATH}
-  
 fi
 
 

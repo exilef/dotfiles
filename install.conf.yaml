@@ -39,3 +39,6 @@
     # tmux
     ~/.tmux.conf: tmux/.tmux.conf
     ~/.tmux.conf.local: tmux.conf.local
+
+    # dircolors
+    ~/.dircolors: dircolors.256dark
