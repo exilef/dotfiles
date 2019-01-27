@@ -43,6 +43,8 @@ if [[ $OS == 'osx' ]]; then
   zstyle ':prezto:module:tmux:iterm' integrate 'yes'
 
   alias o='open'
+  alias preview='open -a Preview'
+  alias p='open -a Preview'
   alias dotshow="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
   alias dothide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 
